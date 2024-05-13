@@ -1,4 +1,3 @@
-// @ts-nocheck
 // src/worker.js
 import { connect } from "cloudflare:sockets";
 
@@ -18,7 +17,7 @@ const worker_default = {
     async fetch(request, env, ctx) {
         try {
             proxyIP = env.proxyip || proxyIP;
-            hostnames = env.hostnames || hostnames
+            hostnames = env.hostnames || hostnames;
             Pswd = env.pswd || Pswd
             sha224Password = sha256.sha224(Pswd);
             const upgradeHeader = request.headers.get("Upgrade");
