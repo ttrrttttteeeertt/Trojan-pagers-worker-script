@@ -3,20 +3,21 @@ import { connect } from "cloudflare:sockets";
 
 let Pswd = 'trojan';
 const proxyIPs = ["cdn.xn--b6gac.eu.org"]; //workers.cloudflare.cyou bestproxy.onecf.eu.org cdn-all.xn--b6gac.eu.org cdn.xn--b6gac.eu.org
-let hostnames = [''];
+let hostnames = ["bing.com"];
 
 let sha224Password ;
 let proxyIP = proxyIPs[Math.floor(Math.random() * proxyIPs.length)];
 const worker_default = {
     /**
      * @param {import("@cloudflare/workers-types").Request} request
-     * @param {proxyip: string, pswd: string} env
+     * @param {proxyip: string, pswd: string,hostname: string} env
      * @param {import("@cloudflare/workers-types").ExecutionContext} ctx
      * @returns {Promise<Response>}
      */
     async fetch(request, env, ctx) {
         try {
             proxyIP = env.proxyip || proxyIP;
+	    hostnames = env.hostname || hostnames;
             Pswd = env.pswd || Pswd
             sha224Password = sha256.sha224(Pswd);
             const upgradeHeader = request.headers.get("Upgrade");
