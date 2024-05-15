@@ -10,14 +10,13 @@ let proxyIP = proxyIPs[Math.floor(Math.random() * proxyIPs.length)];
 const worker_default = {
     /**
      * @param {import("@cloudflare/workers-types").Request} request
-     * @param {proxyip: string, pswd: string,HOSTN: string} env
+     * @param {proxyip: string, pswd: string} env
      * @param {import("@cloudflare/workers-types").ExecutionContext} ctx
      * @returns {Promise<Response>}
      */
     async fetch(request, env, ctx) {
         try {
             proxyIP = env.proxyip || proxyIP;
-	    hostnames = env.HOSTN || hostnames;
             Pswd = env.pswd || Pswd
             sha224Password = sha256.sha224(Pswd);
             const upgradeHeader = request.headers.get("Upgrade");
