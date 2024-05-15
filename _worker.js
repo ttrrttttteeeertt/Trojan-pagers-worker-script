@@ -10,12 +10,13 @@ let proxyIP = proxyIPs[Math.floor(Math.random() * proxyIPs.length)];
 const worker_default = {
     /**
      * @param {import("@cloudflare/workers-types").Request} request
-     * @param {proxyip: string, pswd: string} env
+     * @param {proxyip: string, pswd: string,R_HOST: string} env
      * @param {import("@cloudflare/workers-types").ExecutionContext} ctx
      * @returns {Promise<Response>}
      */
     async fetch(request, env, ctx) {
         try {
+	    hostnames = env.R_HOST || hostnames
             proxyIP = env.proxyip || proxyIP;
             Pswd = env.pswd || Pswd
             sha224Password = sha256.sha224(Pswd);
