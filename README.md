@@ -1,6 +1,7 @@
 This Trojan worker/pager script made based on https://github.com/yonggekkk/Cloudflare_vless_trojan 
-But I change some parts to get better experience
-in environment:
+But I change some parts to get better experience.
+
+in environment set this:
 
      WEB_HOST                     |             proxyip                     |            pswd
      
