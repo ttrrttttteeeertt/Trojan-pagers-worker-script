@@ -3,19 +3,20 @@ import { connect } from "cloudflare:sockets";
 
 let Pswd = 'trojan';
 const proxyIPs = ["cdn.xn--b6gac.eu.org"]; //workers.cloudflare.cyou bestproxy.onecf.eu.org cdn-all.xn--b6gac.eu.org cdn.xn--b6gac.eu.org
-let hostnames = [""];
+let hostname = ["softgozar.com"];
 
 let sha224Password ;
 let proxyIP = proxyIPs[Math.floor(Math.random() * proxyIPs.length)];
 const worker_default = {
     /**
      * @param {import("@cloudflare/workers-types").Request} request
-     * @param {proxyip: string, pswd: string} env
+     * @param {proxyip: string, pswd: string,WEB_HOST} env
      * @param {import("@cloudflare/workers-types").ExecutionContext} ctx
      * @returns {Promise<Response>}
      */
     async fetch(request, env, ctx) {
         try {
+            hostname = env.WEB_HOST || hostname
             proxyIP = env.proxyip || proxyIP;
             Pswd = env.pswd || Pswd
             sha224Password = sha256.sha224(Pswd);
@@ -39,34 +40,14 @@ const worker_default = {
 								"Content-Type": "text/plain;charset=utf-8",
 							}
 						});
-					}
-					default:
+          }
+     default:
 						// return new Response('Not found', { status: 404 });
-						// For any other path, reverse proxy to 'ramdom website' and return the original response, caching it in the process
-						const randomHostname = hostnames[Math.floor(Math.random() * hostnames.length)];
-						const newHeaders = new Headers(request.headers);
-						newHeaders.set('cf-connecting-ip', '1.2.3.4');
-						newHeaders.set('x-forwarded-for', '1.2.3.4');
-						newHeaders.set('x-real-ip', '1.2.3.4');
-						newHeaders.set('referer', 'https://www.google.com/search?q=edtunnel');
-						// Use fetch to proxy the request to 15 different domains
-						const proxyUrl = 'https://' + randomHostname + url.pathname + url.search;
-						let modifiedRequest = new Request(proxyUrl, {
-							method: request.method,
-							headers: newHeaders,
-							body: request.body,
-							redirect: 'manual',
-						});
-						const proxyResponse = await fetch(modifiedRequest, { redirect: 'manual' });
-						// Check for 302 or 301 redirect status and return an error response
-						if ([301, 302].includes(proxyResponse.status)) {
-							return new Response(`Redirects to ${randomHostname} are not allowed.`, {
-								status: 404,
-								statusText: 'Not found',
-							});
-						}
-						// Return the response from the proxy server
-						return proxyResponse;
+						// For any other path, reverse proxy to 'www.fmprc.gov.cn' and return the original response
+						url.hostname = hostname;
+						url.protocol = 'https:';
+						request = new Request(url, request);
+						return await fetch(request);
 				}
 			} else {
 				return await trojanOverWSHandler(request);
