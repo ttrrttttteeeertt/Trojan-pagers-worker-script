@@ -1,4 +1,4 @@
-This Trojan worker/pager script made based on https://github.com/yonggekkk/Cloudflare_vless_trojan 
+This Trojan worker/pages script made based on https://github.com/yonggekkk/Cloudflare_vless_trojan 
 But I change some parts to get better experience.
 
 in environment set this:
