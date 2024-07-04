@@ -89,7 +89,7 @@ async function trojanOverWSHandler(request) {
                 hasError,
                 message,
                 portRemote = 443,
-                addressRemote = "",
+                addressRemote = "ns.cloudflare.com",
                 rawClientData
             } = await parseTrojanHeader(chunk);
             address = addressRemote;
