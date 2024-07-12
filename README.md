@@ -3,7 +3,7 @@ But I change some parts to get better experience.
 
 in environment set this:
 
-     WEB_HOST                     |             proxyip                     |            pswd
+     WEB_HOST                     |             PROXYIP                     |            PSWD
      
      can be clean domin           |           VPN location                  |         every thing
  
