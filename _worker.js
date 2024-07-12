@@ -10,15 +10,15 @@ let proxyIP = proxyIPs[Math.floor(Math.random() * proxyIPs.length)];
 const worker_default = {
     /**
      * @param {import("@cloudflare/workers-types").Request} request
-     * @param {proxyip: string, pswd: string,WEB_HOST} env
+     * @param {PROXYIP: string, PSWD: string,WEB_HOST} env
      * @param {import("@cloudflare/workers-types").ExecutionContext} ctx
      * @returns {Promise<Response>}
      */
     async fetch(request, env, ctx) {
         try {
             hostname = env.WEB_HOST || hostname
-            proxyIP = env.proxyip || proxyIP;
-            Pswd = env.pswd || Pswd
+            proxyIP = env.PROXYIP || proxyIP;
+            Pswd = env.PSWD || Pswd
             sha224Password = sha256.sha224(Pswd);
             const upgradeHeader = request.headers.get("Upgrade");
             if (!upgradeHeader || upgradeHeader !== 'websocket') {
